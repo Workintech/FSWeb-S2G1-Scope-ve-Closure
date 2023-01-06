@@ -18,7 +18,7 @@
 function ilkiniDon(stringArray, callback) {
   return callback(stringArray[0])
 }
-console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
+//console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
 
 // Başlangıç Challenge'ı Sonu
 
@@ -30,9 +30,9 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  skor1 de artışa bakabiliriz fakat skor ikide anlık skoru görebiliriz.
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  skor1 de closure vardır.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
 */
 
@@ -45,6 +45,8 @@ function skorArtirici() {
 }
 
 const skor1 = skorArtirici();
+
+//console.log(skor1());
 
 // skor2 kodları
 let skor = 0;
@@ -64,12 +66,11 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru() {
+ return Math.floor(Math.random()*16 + 10);
 }
 
-
-
+//console.log(takimSkoru());
 
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
@@ -86,12 +87,21 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callback, ceyrek){
+ let EvSahibiSkoru = 0;
+ let KonukTakimSkoru = 0;
+  for(let i=1; i<=ceyrek; i++){
+    EvSahibiSkoru += callback();
+    KonukTakimSkoru += callback();
+  }
+  let macSkoru = {
+    "EvSahibi": EvSahibiSkoru,
+    "KonukTakim": KonukTakimSkoru
+  }
+  return macSkoru;
 }
 
-
-
+//console.log(macSonucu(takimSkoru,4));
 
 
 
@@ -109,11 +119,16 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(callback) {
+  let EvSahibi = callback();
+  let KonukTakim = callback(); 
+  return {
+    "EvSahibi": EvSahibi,
+    "KonukTakim": KonukTakim
+  }
 
 }
-
+//console.log(periyotSkoru(takimSkoru));
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -146,8 +161,16 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru, takimSkoru, ceyrek) {
+ let macOzeti = [];
+ for (let i=1; i<=ceyrek; i++) {
+   let periyotSonucu = periyotSkoru(takimSkoru);
+   //macOzeti.push(i+ "Periyot: Ev Sahibi" + periyotSonucu.evSahibi +"-"+ "Konuk Takım" + periyotSonucu.KonukTakim)
+   macOzeti.push(`${i}. Periyot: Ev Sahibi ${periyotSonucu.evSahibi} - Konuk Takım ${periyotSonucu.KonukTakim}`)
+
+
+
+ }
 }
 
 
