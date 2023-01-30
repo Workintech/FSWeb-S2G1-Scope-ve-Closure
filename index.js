@@ -64,9 +64,9 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
-}
+function takimSkoru() {
+  return Math.floor(Math.random()*16 + 10);
+ }
 
 
 
@@ -86,9 +86,19 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
-}
+function macSonucu(callback, ceyrek){
+  let EvSahibiSkoru = 0;
+  let KonukTakimSkoru = 0;
+   for(let i=1; i<=ceyrek; i++){
+     EvSahibiSkoru += callback();
+     KonukTakimSkoru += callback();
+   }
+   let macSkoru = {
+     "EvSahibi": EvSahibiSkoru,
+     "KonukTakim": KonukTakimSkoru
+   }
+   return macSkoru;
+ }
 
 
 
@@ -109,8 +119,14 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+
+function periyotSkoru(callback) {
+  let EvSahibi = callback();
+  let KonukTakim = callback(); 
+  return {
+    "EvSahibi": EvSahibi,
+    "KonukTakim": KonukTakim
+  }
 
 }
 
@@ -146,9 +162,17 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-}
+function skorTabelasi(periyotSkoru, takimSkoru, ceyrek) {
+  let macOzeti = [];
+  for (let i=1; i<=ceyrek; i++) {
+    let periyotSonucu = periyotSkoru(takimSkoru);
+    //macOzeti.push(i+ "Periyot: Ev Sahibi" + periyotSonucu.evSahibi +"-"+ "Konuk Takım" + periyotSonucu.KonukTakim)
+    macOzeti.push(`${i}. Periyot: Ev Sahibi ${periyotSonucu.evSahibi} - Konuk Takım ${periyotSonucu.KonukTakim}`)
+ 
+ 
+ 
+  }
+ }
 
 
 
