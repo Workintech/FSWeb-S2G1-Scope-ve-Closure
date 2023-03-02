@@ -64,8 +64,10 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+   let goal;
+   goal=Math.floor((Math.random()*15));
+   return goal;
 }
 
 
@@ -86,11 +88,20 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callFunc,quarter){
+  let home=0;
+  let away=0;
+  for(let i=0;i<quarter;i++)
+  {
+    home+=callFunc();
+    away+=callFunc();
+  }
+  return {"EvSahibi":home,
+          "KonukTakim":away
+};
 }
 
-
+console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -109,11 +120,18 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(callFun) {
+  let home;
+  let away;
+  home=callFun();
+  away=callFun();
+  return{
+    "EvSahibi":home,
+    "KonukTakim":away
+  };
 
 }
-
+console.log(periyotSkoru(takimSkoru));
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -146,11 +164,20 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(func1,func2,ceyrek) {
+  let home=0;
+  let away=0;
+  let message=[];
+  for(let i=0;i<ceyrek;i++)
+  {
+    home=func1(func2);
+    away=func1(func2);
+    message=i+". Periyot: Ev Sahibi "+home+" - Konuk Takım "+away;
+  }
+  return message;
 }
-
-
+console.log(skorTabelasi(periyotSkoru,takimSkoru,4));
+/// OLMADI BE :(
 
 
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
