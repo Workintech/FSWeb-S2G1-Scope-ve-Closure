@@ -73,51 +73,15 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-// 1.yol
 
 function takimSkoru(min, max) {
 
-    return Math.floor( Math.random() * (max - min) + min);
+  let takimSkoru = 0;
+
+    return Math.floor(Math.random() * 25 - 10 + 1) + 10;
 }
 
-console.log("2.soru", takimSkoru(10,25)); 
-
-//2.yol 
-
-//function takimSkoru(min, max) {
-
- // let yeniSkor = function(x,y){ 
-  
- // return function(){
-
-   // return Math.round(Math.random() * (y - x) + x) ;
-    
-   // console.log(yeniSkor);
-
- // };
-//}
-//}
-
-
-//console.log("2", takimSkoru(10,25));
-
-//3.yol 
-
-//function takimSkoru(x, y) {
-
-  
-//return Math.round(Math.random() * (y - x) + x) ;
-
-//console.log(takimSkoru(10,25));
-  
-//};
-   
-//console.log("2", takimSkoru(10,25));
-    
-
-
-
-
+console.log("2.soru", takimSkoru); 
 
 
 /* Görev 3: macSonucu() 
@@ -135,14 +99,23 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(takimSkoru, ceyrekSa){
+function macSonucu(callback1, ceyrekSa){
+
+  const sonuc = {
+  EvSahibi: 0,
+  KonukTakim: 0,
+    
+  };
   
-  function newscore() {
-    let skor = Math.round();
-    return function skorGuncelle() {
-     console.log(takimSkoru, skor(10,25));
-    }
+  for(let i = 1; i <= ceyrekSa; i++) {
+      for (let takim in sonuc) {
+        sonuc[takim] += callback1();
+        console.log(sonuc)
+      }
+
   }
+    return sonuc;
+  
 }
 console.log("3.soru", macSonucu(takimSkoru, 4) )
 
@@ -161,19 +134,6 @@ console.log("3.soru", macSonucu(takimSkoru, 4) )
     //}
   //}
 
-
-
-  
-
-
-
-
-
-
-
-
-
-
 /* Zorlayıcı Görev 4: periyotSkoru()
 Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   1. Görev 2'de oluşturduğunuz 'takimSkoru'nu callback fonskiyonunu olarak ilk parametrede alın
@@ -187,28 +147,27 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
 }
   */
 
-function periyotSkoru(takimSkoru){
+function periyotSkoru(callback) {
 
-  const randomskor = (min, max) => {
+  let randomskor =  {
+    EvSahibi: 0,
+    KonukTakim: 0,   
+    };
 
-    return Math.random() * (max - min) + min;
+for (let taraf in randomskor) {
 
-}
+  console.log(taraf, callback())
 
-const sonuc = randomskor(0, 50);
-
-console.log(sonuc);
-
-};
-
-
+   randomskor[taraf] = callback();
   
-  return periyotSkoru(takimSkoru)
-
-console.log("4.soru",periyotSkoru);
+  return randomskor;
 
 
-//periyotSkoru(takimSkoru)
+}}
+
+console.log("4.soru",periyotSkoru(takimSkoru));
+
+
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -241,9 +200,9 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-//function skorTabelasi() {
+function skorTabelasi() { 
   
-//};
+};
 
 
 
