@@ -30,10 +30,19 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
+
+  skor1 çalıştırıldığında console da 0 sonucunu elde edilir. skor2 ile de console da 1 sonucunu elde ederiz.
   
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
+
+  skor1 için tanımlanan skorArtırıcı fonksiyonun içinde yer alan return fonksiyonu bir closure'dur. 
   
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+
+skor1'i, belirli bir işlevde nelerin kapsam içinde olup olmadığını görmek ve anlamak için kullanabiliriz. 
+Ayrıca, değişken ve fonksiyonların aralaındaki ilişkiyi anlamak için kullanılır. Dış fonksiyon return ettikten sonra bile dıştaki fonksiyonun değişkenlerine ve parametrelerine fonksiyon dışından erişmek istemiyorsak skor2 kullanmak daha mantıklı olacaktır. 
+Erişmek istiyorsak skor1 daha mantıklıdır.
+
 */
 
 // skor1 kodları
@@ -64,11 +73,15 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+
+function takimSkoru(min, max) {
+
+  let takimSkoru = 0;
+
+    return Math.floor(Math.random() * 25 - 10 + 1) + 10;
 }
 
-
+console.log("2.soru", takimSkoru); 
 
 
 /* Görev 3: macSonucu() 
@@ -86,14 +99,40 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callback1, ceyrekSa){
+
+  const sonuc = {
+  EvSahibi: 0,
+  KonukTakim: 0,
+    
+  };
+  
+  for(let i = 1; i <= ceyrekSa; i++) {
+      for (let takim in sonuc) {
+        sonuc[takim] += callback1();
+        console.log(sonuc)
+      }
+
+  }
+    return sonuc;
+  
 }
+console.log("3.soru", macSonucu(takimSkoru, 4) )
 
 
+//function macSonucu(takimSkoru, ceyrekSa){
+  
+ // function takimSkoru(min, max) {
 
+    //return Math.round( Math.random() * (max - min) + min);
+//}
 
+//console.log(takimSkoru(10,25)); 
 
+    //return function skorGuncelle() {
+     //console.log(takimSkoru, skor(10,25));
+    //}
+  //}
 
 /* Zorlayıcı Görev 4: periyotSkoru()
 Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -108,11 +147,26 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
 }
   */
 
+function periyotSkoru(callback) {
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+  let randomskor =  {
+    EvSahibi: 0,
+    KonukTakim: 0,   
+    };
 
-}
+for (let taraf in randomskor) {
+
+  console.log(taraf, callback())
+
+   randomskor[taraf] = callback();
+  
+  return randomskor;
+
+
+}}
+
+console.log("4.soru",periyotSkoru(takimSkoru));
+
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,9 +200,9 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-}
+function skorTabelasi() { 
+  
+};
 
 
 
