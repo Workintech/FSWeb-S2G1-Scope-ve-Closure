@@ -14,11 +14,11 @@
  * Aşağıdaki kodlar bu görevin nasıl yapılacağına örnek olacaktır
  * Bu fonskiyon 'asas' dönmeli(return)
 */
-
+//moduler yaparsak, callback'in parametreden farkı yok sadece bir fonksiyon yolluyoruz, daha önce tanımlanmıs
 function ilkiniDon(stringArray, callback) {
   return callback(stringArray[0])
 }
-console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
+//console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
 
 // Başlangıç Challenge'ı Sonu
 
@@ -45,9 +45,17 @@ function skorArtirici() {
 }
 
 const skor1 = skorArtirici();
+//console.log(skor1()) 
+//console.log(skor1()) 
 
 // skor2 kodları
 let skor = 0;
+//console.log(skor1()) 
+//console.log(skor1()) 
+//yukarda skoru 0lamamıza rağmen sonucu 2 ve 3 diye devam ediyor, burada dışarıda skor=0 diye okuyor ancak işin özünde
+//fonksiyon içindeki skora dönüyor ve onu öncelik alarak oradan devam ediyor; bu closure yapısı oluyor işte
+//closure ile süslü parantez içinde tanımlamış oldduğumuz değişkenlere erişebiliyoruz
+
 
 function skor2() {
   return skor++;
@@ -63,12 +71,14 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
   
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
-
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+//Math.random(): 0 ve 1 arasında değer verir; 0 dahil ama 1 dahil değil!
+//Math.random()*16 ile 0 ile 15 arasında değer veriyo, + 10 diyince hangi değer gelirse +10 eklediği için 10 ile 25 değerleri arasında deng geliyor artık
+function takimSkoru(){
+    let skor = Math.floor(Math.random()*16) + 10;
+    return skor;
 }
 
-
+//console.log(takimSkoru());
 
 
 /* Görev 3: macSonucu() 
@@ -86,13 +96,23 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru, ceyrekSayisi){
+  let  skor = {
+    "EvSahibi": 0,
+    'KonukTakim': 0
+  }
+  for(let i = 1; i <= ceyrekSayisi; i++){
+    //takimSkoru() fonksiyonunu çağırıp, skor değiş
+    let evSahibiSkor = takimSkoru();
+    let konukTakimSkor = takimSkoru();
+
+    skor.EvSahibi += evSahibiSkor;
+    skor.KonukTakim +=konukTakimSkor;
+  }
+  return skor;
 }
 
-
-
-
+//console.log(macSonucu(takimSkoru, 4))
 
 
 /* Zorlayıcı Görev 4: periyotSkoru()
@@ -109,11 +129,14 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(takimSkoru) {
+  let  skor = {
+    "EvSahibi": takimSkoru(),
+    'KonukTakim': takimSkoru()
+  }
+  return skor;
 }
-
+console.log(periyotSkoru(takimSkoru))
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -146,10 +169,33 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru, takimSkoru, ceyrekSayisi) {
+  let skorlar = [];
+  let sonuc = {
+    "EvSahibi": 0,
+    "KonukTakim": 0
+  }
+  for (let i = 1; i <= ceyrekSayisi; i++) {
+    let skor= periyotSkoru(takimSkoru);
+    let metin = `${i}. Periyot: Ev Sahibi: ${skor.EvSahibi} - Konuk Takim ${skor.KonukTakim}`;
+    sonuc.EvSahibi += skor.EvSahibi;
+    sonuc.KonukTakim += skor.KonukTakim;
+    skorlar.push(metin);
+  }
+  let i = 1;
+  sonuc.EvSahibi = sonuc.KonukTakim;
+  while(sonuc.EvSahibi == sonuc.KonukTakim){
+    let skor= periyotSkoru(takimSkoru);
+    let metin= `${i}. Uzatma: Ev Sahibi: ${skor.EvSahibi} - Konuk Takim ${skor.KonukTakim}`;
+    sonuc.EvSahibi += skor.EvSahibi;
+    sonuc.KonukTakim += skor.KonukTakim;
+    skorlar.push(metin);
+    i++;
+  }
+  skorlar.push(`Maç Sonucu: Ev Sahibi: ${sonuc.EvSahibi} - Konuk Takim ${sonuc.KonukTakim}`);
+  return skorlar;
 }
-
+console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
 
 
 
