@@ -195,7 +195,7 @@ function skorTabelasi(periyotSkoru, takimSkoru, periyot) {
   let o = 1
   while(finalScore.EvSahibi == finalScore.KonukTakim) {
 
-    const periodScore = periyotSkoru = periyotSkoru(takimSkoru);
+    const periodScore = periyotSkoru(takimSkoru);
     finalScore.EvSahibi += periodScore.EvSahibi;
     finalScore.KonukTakim += periodScore.KonukTakim;
     const overtimeText = `${o}. Uzatma: Ev Sahibi ${periodScore.EvSahibi} - Konuk Takım ${periodScore.KonukTakim}`;
@@ -211,12 +211,6 @@ return scoreArr;
 
 
 console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
-
-
-
-
-//console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));            
-
 
 
 
