@@ -31,9 +31,21 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   
   1. skor1 ve skor2 arasındaki fark nedir?
   
+  skor1 bir closure kullanıyor, skor1 içindeki fonksiyon, skor değişkenini iç içe geçen fonksiyondan yakalayarak onu günceller.
+  skor2 ise basit bir fonksiyon ve bir closure kullanmıyor. skor değişkenine doğrudan erişir ve onu günceller.
+
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
   
+  skor1 bir closure kullanmaktadır. Bir closure, iç içe fonksiyonlarla birlikte bir işlevin kapsamını yakalar ve bir dış değişkeni korur. 
+  Burada skor değişkeni, skorArtirici fonksiyonu içinde tanımlanmış. 
+
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  
+  Eğer skor değişkeninin başka yerlerde yanlışlıkla değiştirilmesini önlemek istersek, skor1 kullanmak daha iyidir. Ayrıca, birden çok yerde skor değişkenini güncellememiz gerekiyorsa ve bu güncellemelerin senkronize olması önemliyse, skor1 kullanmak daha güvenlidir çünkü skor değişkeni sadece skor1 içinde erişilebilir.
+
+  Eğer skor değişkeninin güncellenmesi ve izlenmesi daha basit ve hızlı olması gerekiyorsa, skor2 kullanmak daha mantıklıdır. skor değişkeninin diğer yerlerde de erişilmesi ve güncellenmesi gerekiyorsa, skor2 daha uygun olabilir çünkü daha genel bir kapsama sahiptir.
+
+
 */
 
 // skor1 kodları
@@ -64,16 +76,18 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
+function takimSkoru(){
+  let sayi = Math.floor(Math.random()*16+10); 
     /*Kodunuzu buraya yazınız*/
+    return sayi;
 }
-
+console.log(takimSkoru());
 
 
 
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
-  1. Görev 2'de oluşturduğunuz 'takimSkoru'nu callback fonskiyonunu olarak ilk parametrede alın
+  1. Görev 2'de oluşturduğunuz 'takimSkoru'nu callback fonskiyonu olarak ilk parametrede alın
   2. Bir basketbol maçında oynanan çeyrek sayısını ikinci parametre olarak alın
   3. Her çeyrekte EvSahibi ve KonukTakim için bir skor oluşturun
   4. Her oynanan çeyrekten sonra EvSahibi ve KonukTakim için skoru güncelleyin
@@ -86,10 +100,19 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(scoreCallback, quarter){
+  let EvSahibi = 0
+  let KonukTakim = 0
+  for(let i=0; i< quarter; i++) {
+    EvSahibi = EvSahibi + scoreCallback();
+    KonukTakim = KonukTakim + scoreCallback();
+  }
+  return {
+    "EvSahibi": EvSahibi,
+    "KonukTakim": KonukTakim
+  }
 }
-
+console.log(macSonucu(takimSkoru, 4))
 
 
 
@@ -109,10 +132,17 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(teamScore) {
+  let result = {
+    EvSahibi : teamScore(),
+    KonukTakim : teamScore()
+  }
+
+  return result;
 
 }
+
+console.log(periyotSkoru(takimSkoru));
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,9 +176,48 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru, takimSkoru, periyot) {
+  const scoreArr = [];
+  const finalScore = {
+    EvSahibi : 0,
+    KonukTakim : 0
+  };
+  
+  for(let i = 1; i <= periyot; i++) {
+    const periodScore = periyotSkoru(takimSkoru)
+    finalScore.EvSahibi += periodScore.EvSahibi;
+    finalScore.KonukTakim += periodScore.KonukTakim;
+    const periodText = `${i}. Periyot: Ev Sahibi ${periodScore.EvSahibi} - Konuk Takım: ${periodScore.KonukTakim}`
+    scoreArr.push(periodText);
+  }
+  
+  finalScore.EvSahibi = finalScore.KonukTakim;
+  let o = 1
+  while(finalScore.EvSahibi == finalScore.KonukTakim) {
+
+    const periodScore = periyotSkoru = periyotSkoru(takimSkoru);
+    finalScore.EvSahibi += periodScore.EvSahibi;
+    finalScore.KonukTakim += periodScore.KonukTakim;
+    const overtimeText = `${o}. Uzatma: Ev Sahibi ${periodScore.EvSahibi} - Konuk Takım ${periodScore.KonukTakim}`;
+    scoreArr.push(overtimeText);
+    o++
+  }
+  
+  const matchText = `Maç Sonucu: Ev Sahibi ${finalScore.EvSahibi} - Konuk Takım: ${finalScore.KonukTakim}`
+  scoreArr.push(matchText);
+
+return scoreArr;
 }
+
+
+console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
+
+
+
+
+//console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));            
+
+
 
 
 
