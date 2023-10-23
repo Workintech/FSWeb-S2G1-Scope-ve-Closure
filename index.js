@@ -30,10 +30,11 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  Birinde closure kullanılırken diğerinde kullanılmamış. Skor1 yalnız bir şekilde değiştirelibilirken(skorArtirici), Skor2 herhangi bir fonksiyonla değiştirilebilir(globalde olduğundan).
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  skor 1 Closure kullanmaktadır. Child fonksiyonunu Parent'ın içine alarak triggerlar.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  Closure kullanımı hem veri gizliliği hem güvenlik açısından önemlidir. Skor2 de herhangi bir güvenlik önlemi yoktur ve dışardan verilere ulaşılabilir.
 */
 
 // skor1 kodları
@@ -64,10 +65,12 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    const skor = Math.floor(Math.random() * 15) + 10;
+    return skor;
 }
 
+console.log("Görev 2. Takım Skoru ",takimSkoru());
 
 
 
@@ -84,12 +87,23 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
   "EvSahibi": 92,
   "KonukTakim": 80
 }
-*/ 
+*/
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru,periyot){
+  let EvSahibi = 0;
+  let KonukTakim = 0;
+  for (let i = 1; i<=periyot; i++){
+    EvSahibi = EvSahibi + takimSkoru();
+    KonukTakim = KonukTakim + takimSkoru();
+  }
+  return {
+    "EvSahibi" : EvSahibi,
+    "KonukTakim" : KonukTakim
+  
+  }
+  
 }
-
+console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -109,11 +123,15 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(takimSkoru) {
+  let skor = {
+    "EvSahibi":takimSkoru(),
+    "KonukTakim":takimSkoru()
 
+  }
+  return skor;
 }
-
+console.log(periyotSkoru(takimSkoru));
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -146,9 +164,31 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(pSkoru,tSkoru,periyot) {
+  let skorArray = [];
+  let macSkoru = {
+    KonukTakim : 0,
+    EvSahibi: 0,
+  }
+
+  for(let i=1; i<=periyot; i++){
+    let periyotSkoru = pSkoru(tSkoru);
+    //Metni hazırla, skorArray'e ekle.
+    let metin = `${i}. Periyot: Ev Sahibi ${periyotSkoru.EvSahibi} - Konuk Takım ${periyotSkoru.KonukTakim}`
+    skorArray.push(metin);
+    //Periyot skorunu maç skoruna ekle.
+    macSkoru.EvSahibi += periyotSkoru.EvSahibi;
+    macSkoru.KonukTakim += periyotSkoru.KonukTakim;
+  }
+  //Skorlar eşit ise uzatmaları oynat.
+  //Metni hazırla, skorArray'e ekle.
+  //Uzatma skorunu maç skoruna ekle.
+  //Maç skoru arrayini hazırla ve skor arrayine ekle.
+  let metin = `Maç Sonucu: Ev Sahibi ${macSkoru.EvSahibi} - Konuk Takım ${macSkoru.KonukTakim}`
+  skorArray.push(metin);
+  return skorArray
 }
+console.log(skorTabelasi(periyotSkoru,takimSkoru,4));
 
 
 
